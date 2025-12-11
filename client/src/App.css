@@ -1,0 +1,107 @@
+:root {
+  font-family: 'Circular Std', Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color-scheme: dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #121212; /* Spotify Schwarz */
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+#root {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 2rem;
+  text-align: center;
+}
+
+/* Container für Login und Profil */
+.card {
+  background-color: #181818; /* Etwas helleres Grau für Karten */
+  padding: 2em;
+  border-radius: 8px;
+  box-shadow: 0 4px 60px rgba(0, 0, 0, 0.5);
+  display: inline-block;
+  min-width: 300px;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+  margin-bottom: 20px;
+}
+
+h2 {
+  color: #fff;
+}
+
+/* Der grüne Spotify Button */
+.btn-spotify {
+  background-color: #1DB954;
+  color: white;
+  padding: 14px 32px;
+  border-radius: 500px; /* Pillen-Form */
+  border: none;
+  font-weight: bold;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: transform 0.2s, background-color 0.2s;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn-spotify:hover {
+  background-color: #1ed760;
+  transform: scale(1.05);
+}
+
+/* Profilbild Styling */
+.profile-img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 20px 0;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+}
+
+.stats {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.stat-item {
+  background: #282828;
+  padding: 10px 20px;
+  border-radius: 4px;
+}
+
+.stat-value {
+  display: block;
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #1DB954;
+}
