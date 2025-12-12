@@ -24,7 +24,7 @@ function Homeroute() {
     setError(null);
     try {
       // A. Currently Playing
-      const currentResponse = await axios.get('http://localhost:8888/api/now-playing', {
+      const currentResponse = await axios.get(`${import.meta.env.VITE_API_URL}/api/now-playing`, {
         headers: { Authorization: `Bearer ${token}` } // Token mit Bearer Prefix
       });
       
@@ -36,7 +36,7 @@ function Homeroute() {
       }
 
       // B. History
-      const recentResponse = await axios.get('http://localhost:8888/api/history', {
+      const recentResponse = await axios.get(`${import.meta.env.VITE_API_URL}/api/history`, {
         headers: { Authorization: `Bearer ${token}` }
       });
 
@@ -79,7 +79,7 @@ function Homeroute() {
             </div>
             
             {/* Link zum Backend Login */}
-            <a href="http://127.0.0.1:8888/login" className="btn-spotify">
+            <a href={`${import.meta.env.VITE_API_URL}/login`} className="btn-spotify">
               Mit Spotify verbinden
             </a>
           </div>

@@ -34,7 +34,7 @@ export default function useAuth() {
     const interval = setInterval(() => {
       console.log("Token wird erneuert...");
       
-      axios.get(`http://localhost:8888/refresh_token?refresh_token=${refreshToken}`)
+      axios.get(`${import.meta.env.VITE_API_URL}/refresh_token?refresh_token=${refreshToken}`)
         .then(res => {
           // Dein Backend sendet das neue Access Token zurück
           setAccessToken(res.data.access_token);
