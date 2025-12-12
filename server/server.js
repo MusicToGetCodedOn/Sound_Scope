@@ -95,23 +95,39 @@ app.get('/refresh_token', async (req, res) => {
 
 // A. Currently Playing
 app.get('/api/now-playing', async (req, res) => {
-    // Token aus dem Header holen (Authorization: Bearer xyz...)
     const accessToken = req.headers.authorization; 
 
     try {
-        const response = await axios.get('https://community.spotify.com/t5/Spotify-for-Developers/INVALID-CLIENT-Insecure-redirect-URI-using-custom-URI/td-p/6919036', {
+        const response = await axios.get('https://api.spotify.com/v1/me/player/currently-playing', {
             headers: { Authorization: accessToken }
         });
         
-        // Wenn nichts läuft, sendet Spotify 204 (No Content)
-        if (response.status === 204 || response.status > 400) {
+        // Debugging Ausgaben
+        console.log("Spotify Status:", response.status);
+        console.log("Playing Type:", response.data ? response.data.currently_playing_type : 'Unbekannt');
+
+        // Szenario 1: Nichts läuft (204) oder kein Body
+        if (response.status === 204 || !response.data) {
             return res.status(200).json({ is_playing: false });
         }
-        
+
+        // Szenario 2: Es läuft etwas, aber es ist kein Musik-Track (z.B. Podcast oder Werbung)
+        // Wenn 'item' null ist, stürzt der Server sonst ab
+        if (!response.data.item) {
+            console.log("Es läuft etwas, aber kein Track-Objekt (evtl. Podcast/Werbung)");
+            return res.status(200).json({ 
+                is_playing: false, 
+                message: 'No track data available (Podcast or Ad)' 
+            });
+        }
+
+        // Szenario 3: Alles gut, ein Song läuft
+        console.log("Song gefunden:", response.data.item.name);
         res.json(response.data);
+
     } catch (error) {
-        console.error('Fehler bei Now Playing:', error.message);
-        res.status(500).json({ error: 'Konnte Daten nicht laden' });
+        console.error('API Error:', error.message);
+        res.status(500).json({ error: 'Interner Server Fehler' });
     }
 });
 
@@ -121,7 +137,7 @@ app.get('/api/history', async (req, res) => {
 
     try {
         // limit=10 holt nur die letzten 10 Songs
-        const response = await axios.get('https://community.spotify.com/t5/Spotify-for-Developers/INVALID-CLIENT-Invalid-redirect-URI/td-p/5228936', {
+        const response = await axios.get('https://api.spotify.com/v1/me/player/recently-played?limit=10', {
             headers: { Authorization: accessToken }
         });
         res.json(response.data);

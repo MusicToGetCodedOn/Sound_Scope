@@ -1,17 +1,23 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
-import './App.css'; // Wichtig: Importiert unser CSS
+import './App.css';
 import { Outlet } from 'react-router-dom';
 import Header from './components/header.jsx';
+import useAuth from './hooks/useAuth';
 
 function App() {
+
+  const accessToken = useAuth();
+
   return (
-  <>
-  <Header/>
-  <main>
-    <Outlet/>
-  </main>
-  </>
-  )
+    <>
+      
+      <Header token={accessToken} />
+      
+      <main>
+        <Outlet context={{ token: accessToken }} />
+      </main>
+    </>
+  );
 };
+
 export default App;
